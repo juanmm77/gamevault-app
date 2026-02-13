@@ -1,0 +1,72 @@
+<div class="page-container favorites-page pt-6 pb-12 px-4 md:px-6 lg:px-8">
+  <h2 class="page-title text-white text-3xl font-bold mb-6 font-title uppercase tracking-wider text-center">Mis Juegos Favoritos</h2>
+
+  @if (loading) {
+    <div class="text-center py-10">
+      <div class="loader mx-auto"></div>
+      <p class="mt-4 text-lg text-gray-300 font-body">Consultando la bóveda...</p>
+    </div>
+  }
+
+  @if (!loading) {
+    @if (favorites.length === 0) {
+      <div class="empty-state text-center py-20 bg-gray-900/50 rounded-xl border border-dashed border-gray-700">
+        <p class="empty-state-title text-2xl text-white font-semibold font-title">Tu colección está vacía</p>
+        <p class="empty-state-description text-gray-400 mt-2 font-body">
+          ¡Explora el catálogo y añade los videojuegos que más te gusten!
+        </p>
+        <a routerLink="/juegos" class="btn-search mt-6 inline-block !px-8 !py-3">Descubrir Juegos</a>
+      </div>
+    }
+    
+    @if (favorites.length > 0) {
+      <div class="search-filters-bar mb-10 p-6 flex justify-center">
+        <div class="relative w-full max-w-2xl">
+          <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-accent">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </span>
+          <input
+            [(ngModel)]="searchTerm"
+            name="search"
+            placeholder="BUSCAR EN FAVORITOS..."
+            class="search-input w-full !pl-12 !h-14 !text-lg uppercase tracking-widest"
+            (input)="applyFilters()"
+          />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        @for (game of filteredFavorites; track (game.gameId || game.id)) {
+          <div class="character-card relative group">
+            <a [routerLink]="['/juego', game.gameId || game.id]">
+              <div class="aspect-video overflow-hidden">
+                <img
+                  [src]="game.background_image || 'assets/placeholder-game.png'"
+                  [alt]="game.name"
+                  class="character-image !static transition-transform duration-500 group-hover:scale-110"
+                />
+              </div>
+              <div class="p-4 bg-gradient-to-t from-black/90 to-transparent">
+                <h3 class="text-white font-title text-sm truncate uppercase tracking-tighter">{{ game.name }}</h3>
+              </div>
+            </a>
+            
+            <button
+              (click)="remove(game.gameId || game.id)"
+              class="absolute top-2 right-2 bg-red-600/80 hover:bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center transition-all z-20 shadow-lg border border-red-400/50"
+              [disabled]="pending.has(game.gameId || game.id)"
+            >
+              @if (pending.has(game.gameId || game.id)) {
+                <span class="animate-spin text-xs">...</span>
+              } @else {
+                <span class="font-bold">×</span>
+              }
+            </button>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

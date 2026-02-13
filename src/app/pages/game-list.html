@@ -1,0 +1,148 @@
+<div class="home-container pt-6 pb-12 px-4 md:px-6 lg:px-8">
+  
+  <form (ngSubmit)="onSearch()" class="search-filters-bar mb-8 p-4 rounded-lg shadow-md">
+    <div class="flex flex-col md:flex-row gap-4 items-center">
+      <input
+        [(ngModel)]="searchTerm"
+        name="search"
+        placeholder="Buscar videojuegos..."
+        class="search-input flex-grow !h-12 text-lg"
+      />
+      <button type="submit" class="btn-search px-10 !h-12">BUSCAR</button>
+    </div>
+  </form>
+
+  <div class="flex flex-col md:flex-row gap-8">
+    
+    <aside class="w-full md:w-64 flex-shrink-0">
+      <div class="sticky top-24 p-6 bg-[#161b22] border border-gray-800 rounded-xl shadow-xl space-y-6">
+        <h3 class="filter-title text-accent font-bold uppercase tracking-widest text-sm border-b border-gray-800 pb-2">
+          Filtros
+        </h3>
+
+        <div class="space-y-2">
+          <label class="filter-label block">Categoría</label>
+          <select
+            [(ngModel)]="selectedGenreId"
+            name="selectedGenreId"
+            class="filter-select w-full !m-0"
+            (change)="onSearch()"
+          >
+            <option [ngValue]="null">Todas</option>
+            @for (genre of genres; track genre.id) {
+              <option [ngValue]="genre.id">{{ genre.name }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="space-y-2">
+          <label class="filter-label block">Plataforma</label>
+          <select
+            [(ngModel)]="selectedPlatformId"
+            name="selectedPlatformId"
+            class="filter-select w-full !m-0"
+            (change)="onSearch()"
+          >
+            <option [ngValue]="null">Todas</option>
+            @for (p of platforms; track p.id) {
+              <option [ngValue]="p.id">{{ p.name }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="space-y-2">
+          <label class="filter-label block">Año</label>
+          <input
+            type="number"
+            min="1950"
+            max="2030"
+            [(ngModel)]="releaseYear"
+            name="releaseYear"
+            class="filter-date w-full !m-0 text-center"
+            (change)="onSearch()"
+            placeholder="Ej: 2024"
+          />
+        </div>
+
+        <button (click)="clearFilters()" type="button" class="btn-clear-filters w-full mt-4">
+          Limpiar filtros
+        </button>
+      </div>
+    </aside>
+
+    <div class="flex-1">
+      
+      @if (loading) {
+        <div class="text-center py-10">
+          <div class="loader"></div>
+          <p class="mt-2 text-lg text-gray-400">Cargando videojuegos...</p>
+        </div>
+      }
+
+      @if (!loading && games.length > 0) {
+        <div class="character-grid">
+          @for (game of games; track game.id) {
+            <div class="character-card">
+              <a [routerLink]="['/juego', game.id]" class="character-link">
+                <div class="image-container">
+                  <img
+                    [src]="game.background_image || 'assets/placeholder.png'"
+                    (error)="$any($event.target).src = 'assets/placeholder.png'"
+                    [alt]="game.name"
+                    class="character-image"
+                  />
+                  <div class="image-overlay"></div>
+                </div>
+                <h3 class="character-name">{{ game.name }}</h3>
+              </a>
+
+              <button
+                (click)="toggleFavorite(game); $event.stopPropagation(); $event.preventDefault()"
+                class="favorite-button"
+                [title]="!user ? 'Inicia sesión para usar favoritos' : (favorites.has(game.id) ? 'Quitar de favoritos' : 'Añadir a favoritos')"
+                [disabled]="pending.has(game.id) || !user"
+              >
+                <span
+                  [ngClass]="{
+                    'is-favorite': favorites.has(game.id),
+                    'is-pending': pending.has(game.id)
+                  }"
+                >♥</span>
+              </button>
+            </div>
+          }
+        </div>
+      }
+
+      @if (!loading && games.length === 0) {
+        <div class="text-center py-10">
+          <p class="text-xl text-gray-400">No se encontraron videojuegos.</p>
+        </div>
+      }
+
+      @if (!loading && totalPages > 1) {
+  <div class="pagination-controls mt-12 pb-10 flex items-center justify-center gap-6">
+    <button 
+      (click)="prevPage()" 
+      [disabled]="currentPage === 1" 
+      class="btn-pagination"
+    >
+      Anterior
+    </button>
+    
+    <span class="pagination-info font-title text-sm tracking-widest uppercase text-muted">
+      Página {{ currentPage }} de {{ totalPages }}
+    </span>
+    
+    <button 
+      (click)="nextPage()" 
+      [disabled]="currentPage >= totalPages" 
+      class="btn-pagination"
+    >
+      Siguiente
+    </button>
+  </div>
+      }
+    </div>
+  </div>
+</div>

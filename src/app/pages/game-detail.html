@@ -1,0 +1,80 @@
+<div class="page-container game-detail-page pt-6 pb-12 px-4 md:px-6 lg:px-8">
+  @if (loading) {
+    <div class="text-center py-10">
+      <div class="loader"></div>
+      <p class="mt-2 text-lg">Cargando detalles del videojuego...</p>
+    </div>
+  }
+
+  @if (!loading && game) {
+    <div class="action-bar mb-6">
+  <button (click)="volver()" type="button" class="btn-secondary flex items-center">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+    </svg>
+    Volver
+  </button>
+</div>
+
+    <div class="game-detail-content bg-marvel-charcoal p-6 md:p-8 rounded-lg shadow-xl">
+      <div class="game-content-grid">
+        <div class="game-image-main-container">
+          <img 
+            [src]="game.background_image || 'assets/images/placeholder-game.png'" 
+            [alt]="game.name" 
+            class="character-image" 
+          />
+        </div>
+        <div class="game-info">
+          <h1 class="character-title">{{ game.name }}</h1>
+          
+          <div class="mt-4 info-grid">
+            <div class="info-item">
+              <span class="info-label">Fecha de Lanzamiento:</span>
+              <span class="info-value ml-2">{{ game.released | date }}</span>
+            </div>
+
+            <div class="info-item">
+              <span class="info-label">Rating RAWG:</span>
+              <span class="info-value ml-2">⭐ {{ game.rating | number:'1.1-1' }}</span>
+            </div>
+
+            <div class="info-item">
+              <span class="info-label">Géneros:</span>
+              <span class="info-value ml-2">
+                @for (genre of game.genres; track genre.id; let isLast = $last) {
+                  {{ genre.name }}{{ !isLast ? ', ' : '' }}
+                } @empty { No especificado }
+              </span>
+            </div>
+
+            <div class="info-item">
+              <span class="info-label">Plataformas:</span>
+              <span class="info-value ml-2">
+                @for (p of game.platforms; track p.platform.id; let isLast = $last) {
+                  {{ p.platform.name }}{{ !isLast ? ', ' : '' }}
+                } @empty { No especificado }
+              </span>
+            </div>
+          </div>
+          
+          <div class="character-description mt-6 border-t border-gray-700 pt-4">
+            <h3 class="text-xl font-bold mb-2">Descripción</h3>
+            @if (game.description_raw) {
+              <p class="leading-relaxed">{{ game.description_raw }}</p>
+            } @else {
+              <p class="no-description-text">Sin descripción disponible.</p>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (!loading && !game) {
+    <div class="text-center py-10">
+      <p class="text-xl text-marvel-text-secondary">Videojuego no encontrado.</p>
+      <p class="mt-2 text-sm text-gray-500">Parece que este juego no está disponible...</p>
+    </div>
+  }
+</div>
