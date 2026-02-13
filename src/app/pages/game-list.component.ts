@@ -152,6 +152,7 @@ export class GameListComponent implements OnInit, OnDestroy {
   // Decide si buscar por texto o usar filtros generales
   loadGames() {
     this.loading = true;
+    window.scrollTo(0, 0);
 
     // calculamos página según offset y limit
     // ejemplo: offset 0 -> page 1, offset 21 -> page 2, etc.
