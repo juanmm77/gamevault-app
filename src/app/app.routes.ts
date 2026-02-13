@@ -15,7 +15,7 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'juegos', component: GameListComponent }, 
 
-    // Rutas protegidas (Requieren Login) 🔒
+    // Rutas protegidas (Requieren Login)
     { 
       path: 'favoritos', 
       component: FavoritosComponent, 
