@@ -1,59 +1,20 @@
-# MarvelApp
+# GameVault
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.3.
+**GameVault** es una aplicación web moderna diseñada para explorar y gestionar un catálogo de videojuegos. Este proyecto fue desarrollado como una Single Page Application (SPA) utilizando Angular y Firebase.
 
-## Development server
+## Demo en vivo
+Puedes ver la aplicación funcionando aquí: 
+👉 [https://videogames-2a4b2.web.app](https://videogames-2a4b2.web.app)
 
-To start a local development server, run:
+## Características
+* **Catálogo de Juegos:** Visualización de títulos con detalles técnicos y descripción.
+* **Sistema de Autenticación:** Registro e inicio de sesión seguro mediante **Firebase Authentication**.
+* **Gestión de Favoritos:** Los usuarios autenticados pueden guardar sus juegos preferidos en una base de datos en tiempo real.
+* **Rutas Protegidas:** Implementación de **Guards** para asegurar que solo usuarios logueados accedan a la sección de favoritos.
+* **Interfaz Gamer:** Diseño responsivo y moderno adaptado para cualquier dispositivo.
 
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Tecnologías utilizadas
+* **Frontend:** Angular 18+ (Signals, Routing, Services).
+* **Backend/BaaS:** Firebase (Hosting, Auth, Firestore).
+* **Estilos:** Tailwind.
+* **Control de Versiones:** GitHub.
